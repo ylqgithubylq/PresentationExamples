@@ -5,14 +5,26 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_Miscellaneous", "NewFetures\Example_Miscellaneous\Example_Miscellaneous.vcxproj", "{E69660CA-5834-4BD6-978E-9E810C11ACD4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F423A4ED-25F0-432D-9DEF-6F207373B04C}"
+	ProjectSection(SolutionItems) = preProject
+		BasicProjectProperties.props = BasicProjectProperties.props
+		CommonTools.h = CommonTools.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Debug|Win32.Build.0 = Debug|Win32
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Debug|x64.ActiveCfg = Debug|x64
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Debug|x64.Build.0 = Debug|x64
+		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|Win32.ActiveCfg = Release|Win32
+		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|Win32.Build.0 = Release|Win32
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|x64.ActiveCfg = Release|x64
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
