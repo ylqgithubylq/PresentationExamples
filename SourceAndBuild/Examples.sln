@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CommonTools.h = CommonTools.h
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_RValueReference", "NewFetures\Example_RValueReference\Example_RValueReference.vcxproj", "{23E24808-D737-44FD-8368-9EBB3E12406A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,14 @@ Global
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|Win32.Build.0 = Release|Win32
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|x64.ActiveCfg = Release|x64
 		{E69660CA-5834-4BD6-978E-9E810C11ACD4}.Release|x64.Build.0 = Release|x64
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Debug|Win32.Build.0 = Debug|Win32
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Debug|x64.ActiveCfg = Debug|x64
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Debug|x64.Build.0 = Debug|x64
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Release|Win32.ActiveCfg = Release|Win32
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Release|Win32.Build.0 = Release|Win32
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Release|x64.ActiveCfg = Release|x64
+		{23E24808-D737-44FD-8368-9EBB3E12406A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

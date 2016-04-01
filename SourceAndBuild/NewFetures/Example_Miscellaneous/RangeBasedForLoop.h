@@ -81,18 +81,8 @@ namespace RangeBasedForLoop
 		auto rangeEndHolder = make_unique<int>(100000);
 		int rangeEnd = *rangeEndHolder;
 
-		int sum0 = 0;
-		auto rangeTime = ExecutionTime([&sum0, rangeEnd]
-		{
-			for (int i : Range(0, rangeEnd))
-			{
-				sum0 += i;
-			}
-		});
-		auto toPreventSumOptimizedAway0 = make_unique<int>(sum0);
-
 		int sum1 = 0;
-		auto forTime = ExecutionTime([&sum1, rangeEnd]
+		auto forTime = MeasureExecutionTime([&sum1, rangeEnd]
 		{
 			for (int i = 0; i != rangeEnd; i++)
 			{
@@ -100,6 +90,16 @@ namespace RangeBasedForLoop
 			}
 		});
 		auto toPreventSumOptimizedAway1 = make_unique<int>(sum1);
+
+		int sum0 = 0;
+		auto rangeTime = MeasureExecutionTime([&sum0, rangeEnd]
+		{
+			for (int i : Range(0, rangeEnd))
+			{
+				sum0 += i;
+			}
+		});
+		auto toPreventSumOptimizedAway0 = make_unique<int>(sum0);
 
 
 		(sum0 == sum1);

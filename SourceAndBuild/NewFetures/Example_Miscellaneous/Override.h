@@ -24,4 +24,10 @@ namespace Override
 		}
 #endif
 	};
+
+	void Run()
+	{
+		Derived d;
+		d = d;
+	}
 }

@@ -7,24 +7,29 @@ namespace DeleteAndDefault
 	using namespace std;
 	struct Object
 	{
-// 		Object() = default;
-// 		~Object() = default;
-// 
-// 		Object(Object const& other) = default;
-// 		Object& operator=(Object const& other) = delete;
-// 
-// 		Object(Object&& other) = default;
-// 		Object& operator=(Object&& other) = delete;
-// 		
+		Object() = default;
+		~Object() = default;
+
+		Object(Object const& other) = delete;
+		Object& operator=(Object const& other) = delete;
+
+		Object(Object&& other) = default;
+		Object& operator=(Object&& other) = delete;
 	};
+
+	Object CreateObject()
+	{
+		return Object();
+	}
 
 	void Run()
 	{
-		static_assert(is_trivial<Object>::value, "");
+		// not trivial, because Object has no move operator=
+		static_assert(!is_trivial<Object>::value, "");
 
 		Object object; // call Object()
 
-		Object otherObject1 = move(object); // call Object(Object&& other)
+		Object otherObject1 = CreateObject(); // call Object(Object&& other)
 
 #ifdef TurnOnCompileErrorCode
 		Object otherObject2;

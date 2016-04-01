@@ -15,13 +15,13 @@ std::chrono::microseconds TimeDeltaInUs(std::chrono::time_point<C, D> start, std
 	return d;
 }
 
-std::chrono::time_point<std::chrono::high_resolution_clock> Now()
+inline std::chrono::time_point<std::chrono::high_resolution_clock> Now()
 {
 	return std::chrono::high_resolution_clock::now();
 }
 
 template <typename F>
-auto ExecutionTime(F& f)
+auto MeasureExecutionTime(F& f)
 {
 	auto startTime = Now();
 	f();
