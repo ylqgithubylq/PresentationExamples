@@ -14,7 +14,7 @@ namespace Move
 	{
 		void RValueMethod(string&& s)
 		{
-			storage = move(s); // s is a lvalue
+			storage = move(s); // s is an lvalue
 		}
 
 		string storage;

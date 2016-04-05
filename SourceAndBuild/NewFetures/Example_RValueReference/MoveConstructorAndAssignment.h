@@ -78,14 +78,6 @@ namespace MoveConstructorAndAssignment
 		Detector detector;
 	};
 
-	struct NoCopy0
-	{
-		NoCopy0() = default;
-		~NoCopy0()
-		{
-		}
-		Detector detector;
-	};
 
 	void BasicMove()
 	{
