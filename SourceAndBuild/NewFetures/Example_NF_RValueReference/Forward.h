@@ -11,7 +11,7 @@ namespace Forward
 {
 	using namespace std;
 
-	// if v is an rvalue, impossible if used as Forward<T>(parameter)
+	// impossible if used as Forward<T>(parameter)
 // 	template <typename T>
 // 	T&& Forward(T&& v)
 // 	{
