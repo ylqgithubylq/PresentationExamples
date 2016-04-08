@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_NF_RValueReference"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_NF_VariadicTemplate", "NewFetures\Example_NF_VariadicTemplate\Example_VariadicTemplate.vcxproj", "{5D0DCA0B-1490-47D7-9ADA-4C04EA9F9A55}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_BoundSafety", "GoodPractices\Example_GP_BoundSafety\Example_GP_BoundSafety.vcxproj", "{BF757753-B77A-4515-A84D-863663BC40A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -77,6 +79,14 @@ Global
 		{5D0DCA0B-1490-47D7-9ADA-4C04EA9F9A55}.Release|Win32.Build.0 = Release|Win32
 		{5D0DCA0B-1490-47D7-9ADA-4C04EA9F9A55}.Release|x64.ActiveCfg = Release|x64
 		{5D0DCA0B-1490-47D7-9ADA-4C04EA9F9A55}.Release|x64.Build.0 = Release|x64
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Debug|Win32.Build.0 = Debug|Win32
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Debug|x64.ActiveCfg = Debug|x64
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Debug|x64.Build.0 = Debug|x64
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|Win32.ActiveCfg = Release|Win32
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|Win32.Build.0 = Release|Win32
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|x64.ActiveCfg = Release|x64
+		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

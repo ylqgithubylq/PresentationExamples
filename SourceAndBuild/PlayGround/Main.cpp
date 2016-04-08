@@ -7,5 +7,6 @@ using namespace std;
 
 int main()
 {
-	tuple<int> t;
+
+
 }

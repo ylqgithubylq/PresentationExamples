@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="ArrayView::ArrayView&lt;*&gt;">
+    <Expand>
+      <Item Condition="ElementCount == size_t(-1)" Name="[Size]" ExcludeView="simple">count</Item>
+      <Item Condition="ElementCount != size_t(-1)" Name="[Size]" ExcludeView="simple">ElementCount</Item>
+      <ArrayItems>
+        <Size Condition="ElementCount == size_t(-1)">count</Size>
+        <Size Condition="ElementCount != size_t(-1)">ElementCount</Size>
+        <ValuePointer>data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+</AutoVisualizer>
