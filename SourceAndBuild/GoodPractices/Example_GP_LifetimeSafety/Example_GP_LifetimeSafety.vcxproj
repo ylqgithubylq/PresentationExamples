@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BF757753-B77A-4515-A84D-863663BC40A2}</ProjectGuid>
-    <RootNamespace>Example_GP_BoundSafety</RootNamespace>
+    <ProjectGuid>{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}</ProjectGuid>
+    <RootNamespace>Example_GP_LifetimeSafety</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -117,10 +117,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArrayView.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="Example.natvis" />
+    <ClInclude Include="AutomaticPointer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
