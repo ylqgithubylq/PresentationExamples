@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_NF_VariadicTemplate
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_BoundSafety", "GoodPractices\Example_GP_BoundSafety\Example_GP_BoundSafety.vcxproj", "{BF757753-B77A-4515-A84D-863663BC40A2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_LifetimeSafety", "GoodPractices\Example_GP_LifetimeSafety\Example_GP_LifetimeSafety.vcxproj", "{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -91,6 +93,14 @@ Global
 		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|Win32.Build.0 = Release|Win32
 		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|x64.ActiveCfg = Release|x64
 		{BF757753-B77A-4515-A84D-863663BC40A2}.Release|x64.Build.0 = Release|x64
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Debug|Win32.Build.0 = Debug|Win32
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Debug|x64.ActiveCfg = Debug|x64
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Debug|x64.Build.0 = Debug|x64
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Release|Win32.ActiveCfg = Release|Win32
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Release|Win32.Build.0 = Release|Win32
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Release|x64.ActiveCfg = Release|x64
+		{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

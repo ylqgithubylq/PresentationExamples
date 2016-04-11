@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A3B4F8D3-5A3C-4ACC-973D-A4124C6C7EC7}</ProjectGuid>
-    <RootNamespace>Example_GP_TypeSafety</RootNamespace>
+    <ProjectGuid>{5BF2D1D0-8C0C-4397-9FE5-1C157478CBDD}</ProjectGuid>
+    <RootNamespace>Example_GP_LifetimeSafety</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -117,7 +117,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StrongType.h" />
+    <ClInclude Include="AutomaticPointer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
