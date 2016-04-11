@@ -15,6 +15,10 @@ namespace DeleteAndDefault
 
 		Object(Object&& other) = default;
 		Object& operator=(Object&& other) = delete;
+
+		void Dummy()
+		{
+		}
 	};
 
 	Object CreateObject()
@@ -28,6 +32,7 @@ namespace DeleteAndDefault
 		static_assert(!is_trivial<Object>::value, "");
 
 		Object object; // call Object()
+		object.Dummy(); // to avoid the warning
 
 		Object otherObject1 = CreateObject(); // call Object(Object&& other)
 
