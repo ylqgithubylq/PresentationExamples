@@ -1,9 +1,9 @@
-#include "ArrayView.h"
+#include "PerfomanceComparison.h"
 #include <iostream>
 
 int main()
 {
-	ArrayView::Run();
+	PerfomanceComparison::Run();
 
 	std::cout << "press Enter to exit." << std::endl;
 	std::cin.get();

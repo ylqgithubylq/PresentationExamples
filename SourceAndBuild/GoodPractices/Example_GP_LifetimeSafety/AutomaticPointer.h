@@ -34,6 +34,12 @@ namespace AutomaticPointer
 	struct Resource
 	{
 		array<int, 1024 * 1024> dummy;
+		Resource()
+		{
+		}
+		~Resource()
+		{
+		}
 	};
 
 	struct Object
@@ -55,31 +61,105 @@ namespace AutomaticPointer
 		{
 			return resource.get();
 		}
+
+		void SetBig(unique_ptr<Big> b)
+		{
+			big = move(b);
+		}
+
+		void SetResource(shared_ptr<Resource> r)
+		{
+			resource = move(r);
+		}
 	};
 
 	void UseBig(Big const& big)
-	{
+	{ // dummy example user
 	}
 
 	void UseResource(Resource const& resource)
-	{
+	{ // dummy example user
 	}
 
 	void Usage()
 	{
 		// probably get from resource manager
-		shared_ptr<Resource> r = make_shared<Resource>();
+		shared_ptr<Resource> resource = make_shared<Resource>();
 
-		Object o(r);
-		UseBig(o.GetBig());
-		if (o.GetResource())
+		Object object(resource);
+		UseBig(object.GetBig());
+		if (object.GetResource())
 		{
-			UseResource(*o.GetResource());
+			UseResource(*object.GetResource());
+		}
+	}
+
+	struct Manager
+	{
+		Resource* CreateResource()
+		{
+			return new Resource;
+		}
+		void ReleaseResource(Resource* resource)
+		{
+			resource = resource;
+			delete resource;
+		}
+	};
+
+	void Decouple()
+	{
+		Manager manager;
+		auto resource = shared_ptr<Resource>(manager.CreateResource(), [&manager] (Resource* resource)
+		{
+			manager.ReleaseResource(resource);
+		});
+		Object object(resource);
+		UseResource(*object.GetResource());
+
+		struct ResourceDeleter 
+		{
+			Manager& manager;
+			ResourceDeleter(Manager& manager)
+				: manager(manager)
+			{
+			}
+			void operator()(Resource* resource)
+			{
+				manager.ReleaseResource(resource);
+			}
+		};
+
+		auto up = unique_ptr<Resource, ResourceDeleter>(manager.CreateResource(), ResourceDeleter(manager));
+		UseResource(*up);
+	}
+
+
+	void Weak()
+	{	
+		Object object(nullptr);
+		object.SetResource(make_shared<Resource>());
+
+		auto ob = weak_ptr<Resource>(object.resource);
+		if (!ob.expired())
+		{
+			auto resource = ob.lock();
+			UseResource(*resource);
+		}
+
+		object.SetResource(make_shared<Resource>()); // set a new resource
+		
+		if (!ob.expired())
+		{ // will not get here
+			auto resource = ob.lock();
+			UseResource(*resource);
 		}
 	}
 
 	void Run()
 	{
 		Usage();
+		Decouple();
+		Weak();
 	}
 }

@@ -20,10 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AutomaticPointer.h">
+    <ClInclude Include="..\CommonCodeForExceptionSafety.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CustomizedPointer.h">
+    <ClInclude Include="PerfomanceComparison.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

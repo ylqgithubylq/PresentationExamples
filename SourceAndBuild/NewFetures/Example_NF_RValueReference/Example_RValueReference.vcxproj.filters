@@ -35,5 +35,8 @@
     <ClInclude Include="Forward.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionUsage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

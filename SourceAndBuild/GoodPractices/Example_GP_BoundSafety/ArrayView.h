@@ -14,7 +14,7 @@ namespace ArrayView
 	using byte = uint8_t;
 
 	constexpr size_t DynamicSize = size_t(-1);
-	
+
 	template <typename T, size_t Count = DynamicSize>
 	struct ArrayView
 	{
@@ -67,6 +67,11 @@ namespace ArrayView
 		}
 
 		T& operator[](size_t index)
+		{
+			assert(index < ElementCount);
+			return data[index];
+		}
+		T const& operator[](size_t index) const
 		{
 			assert(index < ElementCount);
 			return data[index];
@@ -146,50 +151,55 @@ namespace ArrayView
 
 		template <typename Y>
 		ArrayView(ArrayView<Y> const& other)
-			: data(other.data), dataEnd(other.dataEnd)
+			: data(other.data), count(other.count)
 		{
 		}
 		template <typename Y>
 		ArrayView(ArrayView<Y>& other)
-			: data(other.data), dataEnd(other.dataEnd)
+			: data(other.data), count(other.count)
 		{
 		}
 
 		template <typename Y>
 		ArrayView(Y* p, size_t count)
-			: data(p), dataEnd(data + count)
+			: data(p), count(count)
 		{
 			assert(Count() >= 0);
 		}
 
 		template <typename Y, size_t N>
 		ArrayView(Y(&a)[N])
-			: data(a), dataEnd(data + N)
+			: data(a), count(N)
 		{
 		}
 		template <typename Y, size_t N>
 		ArrayView(Y const(&a)[N])
-			: data(a), dataEnd(data + N)
+			: data(a), count(N)
 		{
 		}
 
 		template <typename Container/*, typename = decltype(&Container::size), typename = decltype(&Container::data)*/>
 		ArrayView(Container& c)
-			: data(c.data()), dataEnd(data + c.size())
+			: data(c.data()), count(c.size())
 		{
 		}
 		template <typename Container/*, typename = decltype(&Container::size), typename = decltype(&Container::data)*/>
 		ArrayView(Container const& c)
-			: data(c.data()), dataEnd(data + c.size())
+			: data(c.data()), count(c.size())
 		{
 		}
 
 		size_t Count() const
 		{
-			return dataEnd - data;
+			return count;
 		}
 
 		T& operator[](size_t index)
+		{
+			assert(index < Count());
+			return data[index];
+		}
+		T const& operator[](size_t index) const
 		{
 			assert(index < Count());
 			return data[index];
@@ -234,7 +244,7 @@ namespace ArrayView
 		}
 		T* end()
 		{
-			return dataEnd;
+			return data + count;
 		}
 		T const* begin() const
 		{
@@ -242,11 +252,11 @@ namespace ArrayView
 		}
 		T const* end() const
 		{
-			return dataEnd;
+			return data + count;
 		}
 
 		T* data = nullptr;
-		T* dataEnd = nullptr;
+		size_t count = 0;
 	};
 
 	template <typename Container>
@@ -312,7 +322,8 @@ namespace ArrayView
 		return i; // dummy implementation
 	}
 
-	void CalculateOld(vector<int> const& bases, int baseOffset, int count, int outputOffset, vector<pair<int, int>>& out)
+
+	__declspec(noinline) void CalculateOld(vector<int> const& bases, int baseOffset, int count, int outputOffset, vector<pair<int, int>>& out)
 	{
 		for (int i = 0; i < count; i++)
 		{ // calc 1st
@@ -328,10 +339,8 @@ namespace ArrayView
 		}
 	}
 
-
-	void CalculateNew(ArrayView<int const> bases, ArrayView<pair<int, int>> out)
+	__declspec(noinline) void CalculateNew(ArrayView<int const> const bases, ArrayView<pair<int, int>> out)
 	{
-		assert(bases.Count() == out.Count());
 		size_t outCount = out.Count();
 		for (size_t i = 0; i < outCount; i++)
 		{
@@ -347,10 +356,24 @@ namespace ArrayView
 		}
 	}
 
+	__declspec(noinline) void CalculateNaked(int const* bases, int count, int outCount, pair<int, int>* out)
+	{
+		for (int i = 0; i < outCount; i++)
+		{ // calc 1st
+			out[i].first = CalculateFirst(bases[i]);
+		}
+		for (int i = 0; i < outCount; i++)
+		{ // calc 2nd
+			out[i].second = Convert(out[i].first);
+		}
+		for (int i = 0; i < outCount; i++)
+		{ // acc 2nd
+			out[i].second += CalculateSecond(bases[i]);
+		}
+	}
 
 	void BoundAndPerformance()
 	{
-		assert(false);
 		size_t VsCount = 100000;
 		vector<int> vs;
 		vs.resize(VsCount);
@@ -364,6 +387,9 @@ namespace ArrayView
 		size_t baseOffset = 0;
 		size_t count = VsCount;
 		size_t outOffset = 0;
+
+		// warm up
+		CalculateOld(vs, baseOffset, count, outOffset, out);
 
 		auto oldTime = MeasureExecutionTime([&] ()
 		{
@@ -382,8 +408,19 @@ namespace ArrayView
 				CalculateNew(vsView, outView);
 			}
 		});
-		
-		cout << "old time: " << oldTime.count() << ", new time: " << newTime.count() << endl;
+
+		auto nakedTime = MeasureExecutionTime([&] ()
+		{
+			for (size_t i = 0; i < 10; i++)
+			{
+				auto vsView = vs.data() + baseOffset;
+				auto outView = out.data() + outOffset;
+				CalculateNaked(vsView, count, count, outView);
+			}
+		});
+
+
+		cout << "old time: " << oldTime.count() << ", new time: " << newTime.count() << ", naked time: " << nakedTime.count() << endl;
 	}
 
 
@@ -409,7 +446,7 @@ namespace ArrayView
 			delete[] data;
 		}
 	};
-	
+
 	void ReadOld(void const* i, int n, Buffer* b)
 	{
 		if (!i || !b) return;
@@ -457,9 +494,9 @@ namespace ArrayView
 
 	void Run()
 	{
-//		Example();
+		assert(false);
+		//		Example();
 		BoundAndPerformance();
-//		UnsafeRead();
-// 		ArrayView<int const, 5> ad3 = ra;
+		//		UnsafeRead();
 	}
 }
