@@ -16,37 +16,41 @@ namespace PerfomanceComparison
 
 	void Run()
 	{
-		auto index = make_unique<uint64_t>(20);
-		auto r0 = make_unique<uint64_t>(0);
-		auto r1 = make_unique<uint64_t>(0);
-		auto r2 = make_unique<uint64_t>(0);
+		auto errorIndex = make_unique<int64_t>(-1);
+		auto index = make_unique<int64_t>(25);
+		auto r0 = make_unique<int64_t>(0);
+		auto r1 = make_unique<int64_t>(0);
+		auto r2 = make_unique<int64_t>(0);
 
 		auto normalTime = MeasureExecutionTime([&]
 		{
 			ExceptionSafety::NormalFibonacciCalculator cc;
-			function<uint64_t(uint64_t)> caller = [cc] (uint64_t index) mutable
+			*r0 = cc.Calculate(*errorIndex);
+			function<int64_t(int64_t)> caller = [cc] (int64_t index) mutable
 			{
 				return cc.Calculate(index);
 			};
-			*r0 = caller(*index);
+			*r0 += caller(*index);
 		});
 		auto errorTime = MeasureExecutionTime([&]
 		{
-			ExceptionSafety::ErrorFibonacciCalculator cc;
-			function<uint64_t(uint64_t)> caller = [cc] (uint64_t index) mutable
+			ExceptionSafety::FibonacciCalculatorWithError cc;
+			*r1 = cc.Calculate(*errorIndex);
+			function<int64_t(int64_t)> caller = [cc] (int64_t index) mutable
 			{
 				return cc.Calculate(index);
 			};
-			*r1 = caller(*index);
+			*r1 += caller(*index);
 		});
 		auto exceptionTime = MeasureExecutionTime([&]
 		{
-// 			ExceptionSafety::ExceptionFibonacciCalculator cc;
-// 			function<uint64_t(uint64_t)> caller = [cc] (uint64_t index) mutable
-// 			{
-// 				return cc.Calculate(index);
-// 			};
-// 			*r2 = caller(*index);
+			ExceptionSafety::FibonacciCalculatorWithException cc;
+			*r2 = cc.Calculate(*errorIndex);
+			function<int64_t(int64_t)> caller = [cc] (int64_t index) mutable
+			{
+				return cc.Calculate(index);
+			};
+			*r2 += caller(*index);
 		});
 
 

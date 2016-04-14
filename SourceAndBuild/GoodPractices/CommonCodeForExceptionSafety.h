@@ -15,32 +15,32 @@ namespace ExceptionSafety
 	struct IFibonacciCalculator
 	{
 		virtual ~IFibonacciCalculator() = default;
-		uint64_t Calculate(uint64_t index) noexcept
+		int64_t Calculate(int64_t index) noexcept
 		{
 			return Fibonacci(index);
 		}
 
-		virtual uint64_t Fibonacci(uint64_t index) = 0;
+		virtual int64_t Fibonacci(int64_t index) = 0;
 
-		virtual uint64_t DoFibonacci(uint64_t index) = 0;
+		virtual int64_t DoFibonacci(int64_t index) = 0;
 
-		virtual pair<uint64_t, bool> DoFibonacciByError(uint64_t index) = 0;
+		virtual pair<int64_t, bool> DoFibonacciByError(int64_t index) = 0;
 	};
 
 	struct NormalFibonacciCalculator : IFibonacciCalculator
 	{
-		virtual uint64_t Fibonacci(uint64_t index) noexcept override
+		virtual int64_t Fibonacci(int64_t index) noexcept override
 		{
 			return DoFibonacci(index);
 		}
 
-		virtual uint64_t DoFibonacci(uint64_t index) noexcept override
+		virtual int64_t DoFibonacci(int64_t index) noexcept override
 		{
-			if (index == 0)
+			if (index < 0)
 			{
-				return 1;
+				return 0;
 			}
-			else if (index == 1)
+			else if (index <= 1)
 			{
 				return 1;
 			}
@@ -50,109 +50,113 @@ namespace ExceptionSafety
 			}
 		}
 
-		virtual pair<uint64_t, bool> DoFibonacciByError(uint64_t index) override
+		virtual pair<int64_t, bool> DoFibonacciByError(int64_t index) override
 		{
 			return{ 0, true };
 		}
 	};
 
-	struct ExceptionFibonacciCalculator : IFibonacciCalculator
+	struct FibonacciCalculatorWithException : IFibonacciCalculator
 	{
-		struct Reach1
+		struct SmallerThan0
 		{
 		};
 
 
-		virtual uint64_t Fibonacci(uint64_t index) noexcept override
+		virtual int64_t Fibonacci(int64_t index) noexcept override
 		{
-			uint64_t i = 0;
+			int64_t i = 0;
 			try
 			{
 				i = DoFibonacci(index);
 			}
-			catch (const Reach1&)
+			catch (const SmallerThan0&)
 			{
-				i = 1;
+				i = 0;
 			}
 			return i;
 		}
 
-		virtual uint64_t DoFibonacci(uint64_t index) override
+		virtual int64_t DoFibonacci(int64_t index) override
 		{
-			if (index <= 1)
+			if (index < 0)
 			{
-				throw Reach1();
+				throw SmallerThan0();
+			}
+			else if (index <= 1)
+			{
+				return 1;
 			}
 			else
 			{
-				uint64_t i0 = 0;
-				uint64_t i1 = 0;
+				int64_t i0 = 0;
+				int64_t i1 = 0;
 				try
 				{
 					i0 = DoFibonacci(index - 1);
 				}
-				catch (const Reach1&)
+				catch (const SmallerThan0&)
 				{
-					i0 = 1;
+					i0 = 0;
 				}
 				try
 				{
 					i1 = DoFibonacci(index - 2);
 				}
-				catch (const Reach1&)
+				catch (const SmallerThan0&)
 				{
-					i1 = 1;
+					i1 = 0;
 				}
 				return  i0 + i1;
 			}
 		}
 
-		virtual pair<uint64_t, bool> DoFibonacciByError(uint64_t index) override
+		virtual pair<int64_t, bool> DoFibonacciByError(int64_t index) override
 		{
 			return{ 0, true };
 		}
 	};
 
-	struct ErrorFibonacciCalculator : IFibonacciCalculator
+	struct FibonacciCalculatorWithError : IFibonacciCalculator
 	{
-		virtual uint64_t Fibonacci(uint64_t index) noexcept override
+		virtual int64_t Fibonacci(int64_t index) noexcept override
 		{
-			uint64_t i = 0;
-			bool reach1 = false;
+			int64_t i = 0;
+			bool error = false;
 			
-			tie(i, reach1) = DoFibonacciByError(index);
-			if (reach1)
-			{
-				i = 1;
-			}
+			tie(i, error) = DoFibonacciByError(index);
 
 			return i;
 		}
 
-		virtual uint64_t DoFibonacci(uint64_t index) override
+		virtual int64_t DoFibonacci(int64_t index) override
 		{
 			return 0;
 		}
 
-		virtual pair<uint64_t, bool> DoFibonacciByError(uint64_t index) override
+		virtual pair<int64_t, bool> DoFibonacciByError(int64_t index) override
 		{
-			if (index <= 1)
+			if (index < 0)
 			{
-				return{ 0, true };
+				return{ 0, false };
+			}
+			else if (index <= 1)
+			{
+				return{ 1, true };
 			}
 			else
 			{
-				pair<uint64_t, bool> i0 = DoFibonacciByError(index - 1);
-				if (i0.second)
+				pair<int64_t, bool> i0 = DoFibonacciByError(index - 1);
+				if (!i0.second)
 				{
-					i0.first = 1;
+					i0.first = 0;
 				}
-				pair<uint64_t, bool> i1 = DoFibonacciByError(index - 2);
-				if (i1.second)
+				pair<int64_t, bool> i1 = DoFibonacciByError(index - 2);
+				if (!i1.second)
 				{
-					i1.first = 1;
+					i1.first = 0;
 				}
-				return{ i0.first + i1.first, false };
+				return{ i0.first + i1.first, true };
 			}
 		}
 	};

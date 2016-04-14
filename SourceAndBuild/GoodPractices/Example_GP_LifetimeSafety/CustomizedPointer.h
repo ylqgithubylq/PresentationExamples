@@ -308,7 +308,7 @@ namespace CustomizedPointer
 		{
 		}
 		virtual ~ReferenceCountBase() = default;
-	private:
+// 	private:
 		mutable CompressedPair<int, Deleter> rc;
 		void Increase() const
 		{
@@ -524,6 +524,8 @@ namespace CustomizedPointer
 	void CustomIntrusivePointer()
 	{
 		ConcreteResource r; // stack variable ok
+
+		int offset = offsetof(ConcreteResource, rc);
 
 		ResourceDeleter rd(42);
 

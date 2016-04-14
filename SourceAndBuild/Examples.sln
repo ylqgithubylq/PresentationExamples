@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_ExceptionSafety"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_ExceptionSafety_NoException", "GoodPractices\Example_GP_ExceptionSafety_NoException\Example_GP_ExceptionSafety_NoException.vcxproj", "{C1DFFDF5-F836-46D8-8259-0407BFD620FE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example_GP_Example", "GoodPractices\Example_GP_Example\Example_GP_Example.vcxproj", "{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -121,6 +123,14 @@ Global
 		{C1DFFDF5-F836-46D8-8259-0407BFD620FE}.Release|Win32.Build.0 = Release|Win32
 		{C1DFFDF5-F836-46D8-8259-0407BFD620FE}.Release|x64.ActiveCfg = Release|x64
 		{C1DFFDF5-F836-46D8-8259-0407BFD620FE}.Release|x64.Build.0 = Release|x64
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Debug|Win32.Build.0 = Debug|Win32
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Debug|x64.ActiveCfg = Debug|x64
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Debug|x64.Build.0 = Debug|x64
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Release|Win32.ActiveCfg = Release|Win32
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Release|Win32.Build.0 = Release|Win32
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Release|x64.ActiveCfg = Release|x64
+		{8B68AE2E-6D7F-401B-8B2D-5B29166A2180}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

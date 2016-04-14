@@ -109,6 +109,7 @@ namespace ErrorHandling
 			if (task->GetTaskType() == 42)
 			{
 				// process task and data
+				return ErrorCode::NoError;
 			}
 			else
 			{
@@ -147,6 +148,7 @@ namespace ErrorHandling
 			{
 				return new TaskProcessorA;
 			}
+			return nullptr;
 		}
 
 
@@ -164,6 +166,7 @@ namespace ErrorHandling
 				return ConsumeTaskVersion3(task, data);
 				break;
 			default:
+				return ErrorCode::NoError;
 				break;
 			}
 		}
