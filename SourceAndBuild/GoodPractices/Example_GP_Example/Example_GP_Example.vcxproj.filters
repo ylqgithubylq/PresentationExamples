@@ -26,5 +26,8 @@
     <ClInclude Include="UndoRedo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SkeletonUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace std
 	{
 		size_t operator()(UndoRedo::ID id) const
 		{
-			return hash<uint32_t>()(id.id);
+			return hash<size_t>()(id.id);
 		}
 	};
 }

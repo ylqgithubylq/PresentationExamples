@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinearContainer.h" />
+    <ClInclude Include="SkeletonUpdate.h" />
     <ClInclude Include="UndoRedo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
