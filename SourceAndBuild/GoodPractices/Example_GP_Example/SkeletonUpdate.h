@@ -117,8 +117,56 @@ namespace SkeletonUpdate
 
 	}
 
-
 	namespace V1
+	{
+		struct Joint
+		{
+			string name;
+			size_t parent;
+
+			array<float, 16> someCommonData;
+		};
+
+		struct InstanceJoint
+		{
+			Matrix4 local;
+			Matrix4 model;
+
+			InstanceJoint()
+				: local(Matrix4::Identity), model(Matrix4::Identity)
+			{
+			}
+		};
+
+		struct Skeleton
+		{
+			string name;
+			vector<unique_ptr<Joint>> joints;
+		};
+
+		struct Instance
+		{
+			shared_ptr<Skeleton> skeleton;
+			vector<unique_ptr<InstanceJoint>> joints;
+
+			void UpdateModelMatrices()
+			{
+				auto& skeletonJoints = skeleton->joints;
+				for (size_t i = 0; i < skeletonJoints.size(); i++)
+				{
+					size_t parent = skeletonJoints[i]->parent;
+					if (parent != size_t(-1))
+					{
+						joints[i]->model = joints[parent]->model * joints[i]->local;
+					}
+				}
+			}
+		};
+
+	}
+
+
+	namespace V2
 	{
 		struct Skeleton;
 		struct Pose
@@ -239,6 +287,73 @@ namespace SkeletonUpdate
 					size_t jointCount = JointCountForSkeleton(s);
 					skeleton->joints.reserve(jointCount);
 
+					skeleton->joints.push_back(make_unique<Joint>());
+					auto& root = *skeleton->joints.back();
+					root.name = "Version 1 - Joint for Performance Test, Skeleton Instance: " + to_string(s) + ", Joint Index: 0";
+					root.parent = size_t(-1);
+
+					for (size_t j = 1; j < jointCount; j++)
+					{
+						skeleton->joints.push_back(make_unique<Joint>());
+						auto& joint = *skeleton->joints.back();
+						joint.name = "Version 1 - Joint for Performance Test, Skeleton Instance: " + to_string(s) + ", Joint Index: " + to_string(j);
+						joint.parent = ParentIndexForJoint(j);
+					}
+
+					skeletons.push_back(skeleton);
+				}
+
+				for (size_t s = 0; s < SkeletonCount; s++)
+				{
+					for (size_t i = 0; i < InstancePerSkeletonCount; i++)
+					{
+						auto instance = make_shared<Instance>();
+						instance->skeleton = skeletons[s];
+						instance->joints.resize(skeletons[s]->joints.size());
+						for (auto& joint : instance->joints)
+						{
+							joint = make_unique<InstanceJoint>();
+						}
+
+						instances.push_back(instance);
+					}
+				}
+			}
+
+			auto Run()
+			{
+				return MeasureExecutionTime([this]
+				{
+					for (size_t i = 0; i < UpdateCount; i++)
+					{
+						for (size_t index = 0; index < instances.size(); index++)
+						{
+							auto& instance = instances[index];
+							instance->UpdateModelMatrices();
+						}
+					}
+				});
+			}
+		};
+	}
+
+	namespace V2
+	{
+		struct Tester
+		{
+			vector<shared_ptr<Skeleton>> skeletons;
+			vector<shared_ptr<Instance>> instances;
+
+			Tester()
+			{
+				for (size_t s = 0; s < SkeletonCount; s++)
+				{
+					auto skeleton = make_shared<Skeleton>();
+
+					skeleton->name = "Version 1 - Skeleton for Performance Test, Instance: " + to_string(s);
+					size_t jointCount = JointCountForSkeleton(s);
+					skeleton->joints.reserve(jointCount);
+
 					skeleton->joints.push_back(Joint());
 					auto& root = skeleton->joints.back();
 					root.name = "Version 1 - Joint for Performance Test, Skeleton Instance: " + to_string(s) + ", Joint Index: 0";
@@ -292,12 +407,17 @@ namespace SkeletonUpdate
 	{
 		V0::Tester t0;
 
-		auto oldTime = t0.Run();
+		auto v0Time = t0.Run();
 
 		V1::Tester t1;
 
-		auto newTime = t1.Run();
+		auto v1Time = t1.Run();
 
-		cout << "old time: " << oldTime.count() << ", new time: " << newTime.count() << endl;
+
+		V2::Tester t2;
+
+		auto v2Time = t2.Run();
+
+		cout << "v0 time: " << v0Time.count() << ", v1 time: " << v1Time.count() << ", v2 time: " << v2Time.count() << endl;
 	}
 }

@@ -12,18 +12,18 @@ namespace FunctionUsage
 {
 	using namespace std;
 
-	constexpr int DataSize = 1024 * 32;
-	constexpr int HeapAllocDataSize = 1024 * 32;
+	constexpr int DataSize = 1024 * 16;
+	constexpr int HeapAllocDataSize = 1024 * 16;
 
 	struct BigPOD
 	{
-		array<float, DataSize> data;
+		float data[DataSize];
 		float clearValue;
 
-		BigPOD()
-		{
-			// uninitialized
-		}
+		BigPOD() = default;
+// 		BigPOD()
+// 		{
+// 		}
 
 		BigPOD(float clearValue)
 			: clearValue(clearValue)
@@ -36,7 +36,10 @@ namespace FunctionUsage
 
 		void Clear()
 		{
-			data.fill(clearValue);
+			for (auto& f : data)
+			{
+				f = clearValue;
+			}
 		}
 	};
 
@@ -65,13 +68,23 @@ namespace FunctionUsage
 
 		auto dummy0 = make_unique<float>(0.f);
 		auto dummy1 = make_unique<float>(0.f);
+		auto dummy2 = make_unique<float>(0.f);
 
 		auto returnValueTime = MeasureExecutionTime([&]
 		{
 			for (int i = 0; i < *count; i++)
 			{
-				BigPOD big = CreateBig(i);
-				*dummy0 += big.data[0];
+				{
+					BigPOD big = CreateBig(i);
+					*dummy0 += big.data[0];
+				}
+
+				{
+					vector<BigPOD> dummyPODs0;
+					vector<BigPOD> dummyPODs1;
+					dummyPODs0 = dummyPODs1;
+					dummyPODs0.clear();
+				}
 			}
 		});
 
@@ -79,9 +92,18 @@ namespace FunctionUsage
 		{
 			for (int i = 0; i < *count; i++)
 			{
-				BigPOD big;
-				CreateBigTo(big, i);
-				*dummy1 += big.data[0];
+				{
+					BigPOD big;
+					CreateBigTo(big, i);
+					*dummy1 += big.data[0];
+				}
+
+				{
+					vector<BigPOD> dummyPODs0;
+					vector<BigPOD> dummyPODs1;
+					dummyPODs0 = dummyPODs1;
+					dummyPODs0.clear();
+				}
 			}
 		});
 
@@ -89,13 +111,22 @@ namespace FunctionUsage
 		{
 			for (int i = 0; i < *count; i++)
 			{
-				BigPOD big(3.14f);
-				ModifyBig(big, i);
-				*dummy1 += big.data[0];
+				{
+					BigPOD big(3.14f);
+					ModifyBig(big, i);
+					*dummy2 += big.data[0];
+				}
+
+				{
+					vector<BigPOD> dummyPODs0;
+					vector<BigPOD> dummyPODs1;
+					dummyPODs0 = dummyPODs1;
+					dummyPODs0.clear();
+				}
 			}
 		});
 
-		cout << "return value time: " << returnValueTime.count() << ", out parameter time: " << outParameterTime.count() << ", modify time: " << modifyTime.count() << endl;
+		cout << "POD: return value time: " << returnValueTime.count() << ", out parameter time: " << outParameterTime.count() << ", modify time: " << modifyTime.count() << endl;
 	}
 
 	vector<float> CreateContainer(int x)
@@ -159,8 +190,8 @@ namespace FunctionUsage
 			}
 		});
 
-		cout << "return value time: " << returnValueTime.count() << ", out parameter time: " << outParameterTime.count() << endl;
-		cout << "return value reuse time: " << returnValueReuseTime.count() << ", out parameter reuse time: " << outParameterReuseTime.count() << endl;
+		cout << "Container: return value time: " << returnValueTime.count() << ", out parameter time: " << outParameterTime.count() << endl;
+		cout << "Container: return value reuse time: " << returnValueReuseTime.count() << ", out parameter reuse time: " << outParameterReuseTime.count() << endl;
 	}
 
 
