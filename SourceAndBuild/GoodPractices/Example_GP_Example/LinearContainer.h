@@ -20,7 +20,7 @@ namespace LinearContainer
 
 		List(List const& other)
 		{
-			AddUninitialized(other.size);
+			Add_Uninitialized(other.size);
 			UninitializedCopyElements(ptr, other.ptr, other.size);
 		}
 

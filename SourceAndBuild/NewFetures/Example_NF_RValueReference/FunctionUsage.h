@@ -12,8 +12,8 @@ namespace FunctionUsage
 {
 	using namespace std;
 
-	constexpr int DataSize = 1024 * 16;
-	constexpr int HeapAllocDataSize = 1024 * 16;
+	constexpr int DataSize = 1024 * 8;
+	constexpr int HeapAllocDataSize = 1024 * 8;
 
 	struct BigPOD
 	{
@@ -30,9 +30,7 @@ namespace FunctionUsage
 		{
 		}
 
-		~BigPOD()
-		{
-		}
+		~BigPOD() = default;
 
 		void Clear()
 		{
