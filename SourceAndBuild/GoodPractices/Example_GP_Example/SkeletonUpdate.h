@@ -15,7 +15,7 @@ namespace SkeletonUpdate
 	using namespace std;
 
 
-	struct /*alignas(4 * sizeof(float))*/ Matrix4
+	struct alignas(4 * sizeof(float)) Matrix4
 	{
 		static Matrix4 const Identity;
 
@@ -29,6 +29,7 @@ namespace SkeletonUpdate
 				float _20, _21, _22, _23;
 				float _30, _31, _32, _33;
 			};
+			__m128 m128s[4];
 		};
 
 		Matrix4() = default;
@@ -53,7 +54,10 @@ namespace SkeletonUpdate
 			{
 				for (size_t c = 0; c < 4; c++)
 				{
-					result.m[r][c] = left.m[r][c] * right.m[c][r];
+					for (size_t i = 0; i < 4; i++)
+					{
+						result.m[r][c] = left.m[r][i] * right.m[i][r];
+					}
 				}
 			}
 			return result;
@@ -66,9 +70,12 @@ namespace SkeletonUpdate
 		0,0,0,1
 	);
 
+
 	size_t const SkeletonCount = 100;
 	size_t const InstancePerSkeletonCount = 10;
 	size_t const UpdateCount = 10;
+
+	size_t const OtherDataFloatSize = 64;
 
 	auto JointCountForSkeleton(size_t id)
 	{
@@ -86,7 +93,7 @@ namespace SkeletonUpdate
 			string name;
 			size_t parent;
 
-			array<float, 16> someCommonData;
+			array<float, OtherDataFloatSize> someCommonData;
 
 			Matrix4 local;
 			Matrix4 model;
@@ -124,7 +131,7 @@ namespace SkeletonUpdate
 			string name;
 			size_t parent;
 
-			array<float, 16> someCommonData;
+			array<float, OtherDataFloatSize> someCommonData;
 		};
 
 		struct InstanceJoint
@@ -189,7 +196,7 @@ namespace SkeletonUpdate
 			string name;
 			size_t parent;
 
-			array<float, 16> someCommonData;
+			array<float, OtherDataFloatSize> someCommonData;
 		};
 
 		struct Skeleton
